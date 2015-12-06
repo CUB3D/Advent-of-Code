@@ -57,11 +57,21 @@ int calcSlack(present pres)
 	return smallestArea;
 }
 
+int getSmallestPerimiter(present pres)
+{
+	int perimA = 2 * (pres.length + pres.width); // base and top
+	int perimB = 2 * (pres.width + pres.height); // front and back
+	int perimC = 2 * (pres.length + pres.height); // sides
+
+	return std::min(std::min(perimA, perimB), perimC);
+}
+
 int main()
 {
 	std::ifstream presentData("Data.txt");
 
 	int totalFeet = 0;
+	int totalFeetRibbon = 0;
 
 	std::string input = "";
 
@@ -74,11 +84,19 @@ int main()
 
 		int totalArea = area + slack;
 
+		int ribbonForBow = pres.width*pres.height*pres.length;
+		int ribbonForWrap = getSmallestPerimiter(pres);
+
+		totalFeetRibbon += (ribbonForBow + ribbonForWrap);
+		
+		std::cout << "Ribbon: " << (ribbonForBow + ribbonForWrap) << std::endl;
+
 		totalFeet += totalArea;
 	}
 
 
 	std::cout << "Total feet: " << totalFeet << std::endl;
+	std::cout << "Total ribbon required: " << totalFeetRibbon << std::endl;
 
 	int x = 0;
 

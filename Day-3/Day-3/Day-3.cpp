@@ -17,32 +17,64 @@ struct point
 std::vector<point> locationToVists;
 
 int x, y;
+int x_r, y_r;
 
-void addCurLocation()
+
+void addCurLocation(bool robo)
 {
-	std::cout << "Santa is at (" << x << ", " << y << ")" << std::endl;
-
-	bool exists = false;
-
-	for (auto& a : locationToVists)
+	if (robo)
 	{
-		if (a.x == x && a.y == y) // has already visited
+		std::cout << "Robo-santa is at (" << x_r << ", " << y_r << ")" << std::endl;
+
+		bool exists = false;
+
+		for (auto& a : locationToVists)
 		{
-			a.value++;
-			exists = true;
-			break; // exit (mainly for speed)
+			if (a.x == x_r && a.y == y_r) // has already visited
+			{
+				a.value++;
+				exists = true;
+				break; // exit (mainly for speed)
+			}
+		}
+
+		if (!exists)
+		{
+			point p;
+
+			p.x = x_r;
+			p.y = y_r;
+			p.value = 1;
+
+			locationToVists.push_back(p);
 		}
 	}
-
-	if (!exists)
+	else
 	{
-		point p;
+		std::cout << "Santa is at (" << x << ", " << y << ")" << std::endl;
 
-		p.x = x;
-		p.y = y;
-		p.value = 1;
+		bool exists = false;
 
-		locationToVists.push_back(p);
+		for (auto& a : locationToVists)
+		{
+			if (a.x == x && a.y == y) // has already visited
+			{
+				a.value++;
+				exists = true;
+				break; // exit (mainly for speed)
+			}
+		}
+
+		if (!exists)
+		{
+			point p;
+
+			p.x = x;
+			p.y = y;
+			p.value = 1;
+
+			locationToVists.push_back(p);
+		}
 	}
 }
 
@@ -51,25 +83,25 @@ void move(const char instruction, bool robo)
 	if (instruction == '>')
 	{
 		// east (x + 1)
-		x++;
+		robo ? x_r++ : x++;
 	}
 
 	if (instruction == '<')
 	{
 		// west (x - 1)
-		x--;
+		robo ? x_r-- : x--;
 	}
 
 	if (instruction == '^')
 	{
 		// north (y + 1)
-		y++;
+		robo ? y_r++ : y++;
 	}
 
 	if (instruction == 'v')
 	{
 		// south (y - 1)
-		y--;
+		robo ? y_r-- : y--;
 	}
 }
 
@@ -79,7 +111,8 @@ int main()
 
 	std::string input = "";
 
-	addCurLocation(); // add start point
+	addCurLocation(false); // add start point (santa)
+	addCurLocation(true); // add start point (robo)
 
 	while (std::getline(data, input))
 	{
@@ -89,13 +122,15 @@ int main()
 
 			move(c, false);
 
-			addCurLocation();
+			addCurLocation(false);
 
 			i++; // robo-santa
 
 			c = input.c_str()[i];
 
 			move(c, true);
+
+			addCurLocation(true);
 		}
 	}
 

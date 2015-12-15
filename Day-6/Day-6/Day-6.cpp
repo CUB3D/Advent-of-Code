@@ -11,7 +11,7 @@
 int width = 1000;
 int height = 1000;
 
-bool map[1000][1000];
+int map[1000][1000];
 
 std::vector<std::string> split(std::string input, char delim)
 {
@@ -87,17 +87,19 @@ void modArray(Instruction i)
 		{
 			if (i.mode == M_TURN_ON)
 			{
-				map[x][y] = true;
+				map[x][y] += 1;
 			}
 
 			if (i.mode == M_TURN_OFF)
 			{
-				map[x][y] = false;
+				map[x][y] -= 1;
+
+				map[x][y] = (int)fmax(0, map[x][y]);
 			}
 
 			if (i.mode == M_TOGGLE)
 			{
-				map[x][y] = !map[x][y];
+				map[x][y] += 2;
 			}
 		}
 	}
@@ -199,14 +201,11 @@ int main()
 	{
 		for (int y = 0; y < height; y++)
 		{
-			if (map[x][y])
-			{
-				lit++;
-			}
+			lit += map[x][y];
 		}
 	}
 
-	std::cout << "Lights lit: " << lit << std::endl;
+	std::cout << "Total brightness: " << lit << std::endl;
 
 	int x = 0;
 	std::cin >> x;

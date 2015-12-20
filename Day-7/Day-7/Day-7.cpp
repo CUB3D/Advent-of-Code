@@ -222,19 +222,18 @@ int main()
 {
 	std::vector<command> commands = readData();
 
-	while (true)
+	bool done = false;
+
+	while (!done)
 	{
+		//part 1 -> find a
 		for (command c : commands)
 		{
 			//if a is found
 			if (wires.find("a") != wires.end())
 			{
-				printf("Wire a: %i\n", wires["a"]);
-
-				int x = 0;
-				std::cin >> x;
-
-				return 0;
+				done = true;
+				break;
 			}
 
 			if (hasVar(c.var1) && hasVar(c.var2))
@@ -268,21 +267,10 @@ int main()
 		}
 	}
 
-
-	// dump
-	
-	printf("----MAP DUMP----\n");
-
-	for (auto itter = wires.begin(); itter != wires.end(); itter++)
-	{
-		printf("Wire: %s  Value: %i\n", itter->first.c_str(), itter->second);
-	}
-
-	printf("----MAP DUMP----\n"); 
+	printf("Wire a: %i\n", wires["a"]);
 
 	int x = 0;
 	std::cin >> x;
 
     return 0;
 }
-

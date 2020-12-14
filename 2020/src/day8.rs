@@ -1,7 +1,3 @@
-
-
-
-
 #[derive(Clone)]
 pub enum Instruction {
     Nop { value: i64 },
@@ -14,7 +10,7 @@ pub fn gen(input: &str) -> Vec<Instruction> {
     input
         .lines()
         .map(|l| {
-            let parts = l.split(" ").collect::<Vec<_>>();
+            let parts = l.split(' ').collect::<Vec<_>>();
             let ins = parts[0].to_string();
             let value = parts[1].parse::<i64>().unwrap();
 

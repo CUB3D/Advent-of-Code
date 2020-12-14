@@ -20,7 +20,7 @@ pub fn part1(groups: &[Vec<HashSet<char>>]) -> u64 {
             group
                 .iter()
                 .cloned()
-                .flat_map(|member| member)
+                .flatten()
                 .collect::<HashSet<_>>()
                 .len()
         })

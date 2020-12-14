@@ -8,8 +8,8 @@ pub fn gen(input: &str) -> Vec<HashMap<String, String>> {
         .map(|l| {
             let l = l.replace("\n", " ");
             let pairs = l
-                .split(" ")
-                .map(|p| p.split(":").collect::<Vec<_>>())
+                .split(' ')
+                .map(|p| p.split(':').collect::<Vec<_>>())
                 .filter(|p| p.len() > 1)
                 .map(|pairs| (pairs[0].to_string(), pairs[1].to_string()))
                 .collect::<Vec<_>>();
@@ -49,9 +49,9 @@ pub fn valid_hgt(x: &str) -> bool {
     let num = x[..x.len() - 1 - 1].parse::<i64>().unwrap();
 
     if is_cm {
-        num >= 150 && num <= 193
+        (150..=193).contains(&num)
     } else {
-        num >= 59 && num <= 76
+        (59..=76).contains(&num)
     }
 }
 

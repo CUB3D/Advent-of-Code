@@ -18,7 +18,7 @@ pub fn input_generator(input: &str) -> Vec<PasswordEnt> {
             PasswordEnt {
                 min: min.parse::<i32>().unwrap(),
                 max: max.parse::<i32>().unwrap(),
-                char: char.to_string().chars().nth(0).unwrap(),
+                char: char.to_string().chars().next().unwrap(),
                 pass: pass.to_string(),
             }
         })

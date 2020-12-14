@@ -15,8 +15,7 @@ pub fn part1(input: &[i32]) -> i32 {
                 .find(|i2| i2 + i == 2020)
                 .map(|i2| i2 * i)
         })
-        .filter(|x| x.is_some())
-        .nth(0)
+        .find(|x| x.is_some())
         .unwrap()
         .unwrap()
 }
@@ -40,7 +39,7 @@ pub fn part2(input: &[i32]) -> i32 {
                 .filter_map(|x| x)
                 .collect::<Vec<_>>()
         })
-        .nth(0)
+        .next()
         .unwrap()
 }
 

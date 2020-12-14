@@ -1,8 +1,5 @@
 use itertools::iproduct;
 
-
-
-
 #[aoc_generator(day9)]
 pub fn gen(input: &str) -> Vec<u64> {
     input.lines().map(|l| l.parse::<u64>().unwrap()).collect()

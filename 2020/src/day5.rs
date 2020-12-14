@@ -77,8 +77,7 @@ pub fn part2(input: &[BoardingCard]) -> u64 {
     all_seats
         .iter()
         .copied()
-        .filter(|x| !all_seats.contains(&(x - 1)) && !all_seats.contains(&(x + 1)))
-        .nth(0usize)
+        .find(|x| !all_seats.contains(&(x - 1)) && !all_seats.contains(&(x + 1)))
         .unwrap()
 }
 

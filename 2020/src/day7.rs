@@ -1,4 +1,3 @@
-
 use std::collections::HashSet;
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
@@ -28,14 +27,9 @@ pub fn gen(input: &str) -> Vec<Rule> {
                     .filter(|l| !l.is_empty())
                     .map(|b| {
                         let b = b.trim().to_string();
-                        let count_s = b.split(" ").nth(0).unwrap().to_string();
+                        let count_s = b.split(' ').next().unwrap().to_string();
                         let count = count_s.parse::<u32>().unwrap();
-                        let bag_name = b
-                            .split(" ")
-                            .skip(1)
-                            .collect::<Vec<_>>()
-                            .join(" ")
-                            .to_string();
+                        let bag_name = b.split(' ').skip(1).collect::<Vec<_>>().join(" ");
 
                         (count, bag_name)
                     })

@@ -1,6 +1,6 @@
-use itertools::{Itertools};
+use itertools::Itertools;
 
-use std::collections::{HashMap};
+use std::collections::HashMap;
 
 #[aoc_generator(day10)]
 pub fn gen(input: &str) -> Vec<u64> {
@@ -45,7 +45,7 @@ pub fn part2(instructions: &[u64]) -> i64 {
         let next_num = &instructions[0..key];
         let next_num = next_num.iter().rev().take(3).rev().collect::<Vec<_>>();
 
-        if next_num.len() == 0 {
+        if next_num.is_empty() {
             scores.insert(num, 1);
             println!("Storing {}", num);
             continue;

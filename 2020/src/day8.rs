@@ -1,6 +1,6 @@
-use regex::internal::Inst;
-use std::borrow::Borrow;
-use std::collections::HashSet;
+
+
+
 
 #[derive(Clone)]
 pub enum Instruction {
@@ -41,7 +41,7 @@ pub fn part1(instructions: &[Instruction]) -> i64 {
         }
         executed_before[ip as usize] = 1;
         match ins {
-            Instruction::Nop { value } => {
+            Instruction::Nop { value: _ } => {
                 ip += 1;
             }
             Instruction::Acc { change } => {
@@ -81,7 +81,7 @@ pub fn part2(instructions: &[Instruction]) -> i64 {
             }
             executed_before[ip as usize] = 1;
             match ins {
-                Instruction::Nop { value } => {
+                Instruction::Nop { value: _ } => {
                     ip += 1;
                 }
                 Instruction::Acc { change } => {

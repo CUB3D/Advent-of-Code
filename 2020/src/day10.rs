@@ -1,8 +1,8 @@
-use itertools::{all, iproduct, Itertools};
-use rayon::prelude::{IntoParallelRefIterator, ParallelBridge, ParallelIterator};
-use regex::internal::Inst;
-use std::borrow::Borrow;
-use std::collections::{HashMap, HashSet};
+use itertools::{Itertools};
+use rayon::prelude::{ParallelIterator};
+
+
+use std::collections::{HashMap};
 
 #[aoc_generator(day10)]
 pub fn gen(input: &str) -> Vec<u64> {

@@ -1,7 +1,7 @@
 use itertools::iproduct;
-use regex::internal::Inst;
-use std::borrow::Borrow;
-use std::collections::HashSet;
+
+
+
 
 #[aoc_generator(day9)]
 pub fn gen(input: &str) -> Vec<u64> {
@@ -14,7 +14,7 @@ pub fn part1(instructions: &[u64]) -> i64 {
     let mut last_25 = instructions.iter().copied().take(25).collect::<Vec<_>>();
 
     for number in instructions.iter().skip(25).copied() {
-        if let Some((a, b)) = iproduct!(last_25.iter().copied(), last_25.iter().copied())
+        if let Some((_a, _b)) = iproduct!(last_25.iter().copied(), last_25.iter().copied())
             .find(|(a, b)| (*a + *b) == number)
         {
             last_25.push(number);

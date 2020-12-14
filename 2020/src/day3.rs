@@ -30,17 +30,13 @@ pub fn algo(input: &[Vec<Element>], xdiff: usize, ydiff: usize) -> u64 {
 
     let mut trees = 0;
 
-    loop {
-        if let Some(row) = input.get(y) {
-            let col = row.get(x % row.len()).unwrap();
-            if let Element::Tree = col {
-                trees += 1;
-            }
-            x += xdiff;
-            y += ydiff;
-        } else {
-            break;
+    while let Some(row) = input.get(y) {
+        let col = row.get(x % row.len()).unwrap();
+        if let Element::Tree = col {
+            trees += 1;
         }
+        x += xdiff;
+        y += ydiff;
     }
 
     trees

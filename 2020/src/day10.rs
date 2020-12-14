@@ -1,6 +1,4 @@
 use itertools::{Itertools};
-use rayon::prelude::{ParallelIterator};
-
 
 use std::collections::{HashMap};
 
@@ -27,22 +25,6 @@ pub fn part1(instructions: &[u64]) -> i64 {
     let one = differences.iter().copied().filter(|x| *x == 1).count();
     let three = differences.iter().copied().filter(|x| *x == 3).count() + 1;
     (one * three) as i64
-}
-
-pub fn tmp(instructions: &[u64]) -> bool {
-    for i in (0..instructions.len()).rev() {
-        let big = instructions[i];
-
-        let first = if i == 0 { 0 } else { instructions[i - 1] };
-
-        let difference = big - first;
-
-        if difference < 0 || difference > 3 {
-            return false;
-        }
-    }
-
-    return true;
 }
 
 #[aoc(day10, part2)]

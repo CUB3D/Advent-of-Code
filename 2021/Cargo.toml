@@ -1,0 +1,17 @@
+[package]
+name = "advent-of-code-2020"
+version = "0.1.0"
+authors = ["Callum Thomson <callumthom11@gmail.com>"]
+edition = "2021"
+
+[lib]
+bench = false
+
+[dependencies]
+rust-crypto = "0.2.36"
+aoc-runner = "0.3.0"
+aoc-runner-derive = "0.3.0"
+regex = "1.5.4"
+itertools = "0.10.1"
+rayon = "1.5.1"
+

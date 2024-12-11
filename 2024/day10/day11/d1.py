@@ -5,27 +5,39 @@ inp = "125 17"
 inp = "0 44 175060 3442 593 54398 9 8101095"
 
 inp = [int(x) for x in inp.split(" ")]
-print(" ".join([str(x) for x in inp]))
+#print(" ".join([str(x) for x in inp]))
 
 
 
-v1 = list(inp)
-out = []
+import math
+from functools import cache
 
-for jj in range(25):
-    for c in v1:
-        if c == 0:
-            out += [1]
-        elif len(str(c)) %2 == 0:
-            p = str(c)
-            a = p[:len(p)//2]
-            b = p[len(p)//2:]
-            out += [int(a), int(b)]
+p1 = 25
+p2 = 75
+
+@cache
+def do(n, c):
+    if n ==0: return 1
+
+    if c == 0:
+        return do(n-1, 1)
+    else:
+        l = (math.floor(math.log10(c))+1)            
+        if l %2 == 0:
+            a = c // (10 ** (l>>1))
+            b = c % (10 ** (l>>1))
+            return do(n-1, a) + do(n-1, b)
         else:
-            out += [c*2024]
-    #print(" ".join([str(x) for x in out]))
-    v1 = list(out)
-    out = []
+            return do(n-1, c*2024)
 
-print(len(v1))
-        
+ans1 = 0
+for c in inp:
+    ans1 += do(p1, c)
+
+ans2 = 0
+for c in inp:
+    ans2 += do(p2, c)
+print(ans1, ans2)
+
+
+# 0.12s for p1 + p2

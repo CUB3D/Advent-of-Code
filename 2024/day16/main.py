@@ -61,70 +61,42 @@ for x in range(W):
 print(spos, epos)
 
 visit = {}
-routes = [(spos, 0, 0)]
+pths = []
+routes = [(spos, 0, 0, [])]
 best = 10000000000
 
 while len(routes) > 0:
-    (p, d, score) = routes.pop()
+    # why is this 0 like 1000+x faster under pypy?????/
+    (p, d, s, cp) = routes.pop(0)
 
     if p == epos:
-        if score < best:
-            best = score
-            print("NB:", best)
+        if s < best:
+            best = s
+            pths = cp+[p]
+            pths = list(set(pths))
+            #print("NB:", best, len(pths))
             continue
+        elif s == best:
+            pths += cp
+            pths = list(set(pths))
+            #print("  NP:", best, len(pths))
     
     if (p, d) in visit:
-        if visit[(p,d)] < score:
+        if visit[(p,d)] < s:
             continue
-    visit[(p, d)] = score
+    visit[(p, d)] = s
     x,y=p
     
     prevd = d-1
     if prevd < 0:
         prevd += 4
 
-    routes += [((x,y), (d+1)%4, score+1000)]
-    routes += [((x,y), prevd, score+1000)]
+    routes += [((x,y), (d+1)%4, s+1000, cp)]
+    routes += [((x,y), prevd, s+1000, cp)]
 
     ofx,ofy = dirs[d]
     if m[y+ofy][x+ofx] != '#':
-        routes += [((x+ofx, y+ofy), d, score+1)]
+        routes += [((x+ofx, y+ofy), d, s+1, cp+[p])]
     
 print(best)
-#print(visit[((1, 13), 0)])
-#print(visit[((1, 12), 0)])
-
-    
-#def pth(x, y, d, v=[]):
-    #print("pth", x, y, d, v, m[y][x])
-    #global visit
-    #if (v, y, x) in visit:
-        #return None
-
-    #visit += [(v, y, x, d)]
-
-#    if m[y][x] == '#':
-#        return None
-#
-#    if m[y][x] == 'E':
-#        return v
-#
-
-#    ofx,ofy = dirs[d]
-#    
-#    c = None
-#    if m[y][x] == '.' or m[y][x] == 'S':
-#        vv = list(v)
-#        vv += [(x+ofx, y+ofy)]
-#        c =  pth(x+ofx, y+ofy, d, vv)
-#    
-#    a = pth(x, y, (d+1) % 4, list(v))
-#    b = pth(x, y, abs(d-1) % 4, list(v))
-#    return [a, b, c]
-#
-
-#print(spos, epos)
-#x,y = spos
-#x = pth(x,y, 0)
-#print(x)
-
+print(len(pths))

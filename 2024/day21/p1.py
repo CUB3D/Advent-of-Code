@@ -1,3 +1,5 @@
+from functools import cache
+
 numpads = """#####
 #789#
 #456#
@@ -71,10 +73,14 @@ def dpad_pth(tgt, spos):
     W = len(m[0])
 
 
+    epos = None
     for x in range(W):
         for y in range(H):
             if m[y][x] == tgt:
                 epos = (x, y)
+
+    if not epos:
+        print("NOT FOUND", tgt)
 
 
     visit = {}
@@ -121,45 +127,53 @@ def p1(code):
                 ndin += [d + pos + ["A"]]
         din = ndin
 
+    def base(v, cpos):
+        (ig, best_pth) = dpad_pth(v, cpos)
+        return (ig, len(best_pth[0]))
 
-    def do_dpad(din):
-        cpos = (3, 1)
-        dout2 = []
-        for di in din:
-            dout = [[]]
-            for elem in di:
-                (cpos, x) = dpad_pth(elem, cpos)
-                ndin = []
-                for d in dout:
-                    for pos in x:
-                        ndin += [d + pos + ["A"]]
-                dout = ndin
-            dout2 += dout
+    def base1(v, cpos):
+        (tpos, best_pths) = dpad_pth(v, cpos)
 
-        shortest = 999999999
-        for l in dout2:
-            if len(l) < shortest:
-                shortest = len(l)
-        filt = list(filter(lambda l: len(l) == shortest, dout2))
-        return (shortest, filt)
+        short = 99999999
+        spath = 0
+        for pth in best_pths:
+            cost = 0
+            tpos1 = (3,1)
+            for vv in pth:
+                (tpos1,cd) = base(vv, tpos1)
+                cost += cd
+            (_tpos,cd) = base("A", tpos1)
+            cost += cd 
+            if cost < short:
+                short = cost
+                spath = pth
+        return (tpos, "".join(spath))
 
-    (shortest, filt) = do_dpad(din)
-    print("dpad0 shortest", shortest)
-    (shortest, filt) = do_dpad(filt)
-        
-    print("dpad1 shortest", shortest)
+    @cache
+    def base2(s, c=1): 
+        ttt = 0
+        tpos = (3,1)
+        for v in s:
+            (tpos,cd) = base1(v, tpos)
+            if c > 1:
+                ttt += base2(cd+"A", c-1) 
+            else:        
+                cd = len(cd)
+                ttt += cd + 1
+        return ttt
+
+    shortest = 999999999999999999999
+    for cc in din:
+        t = base2("".join(cc), c=2)
+        if t < shortest:
+            shortest = t
+    print(shortest)
+
     num_part = int(code[:3])
     return num_part * shortest
 
-codes = [
-"029A",
-"980A",
-"179A",
-"456A",
-"379A",
-]
-
 codes = open("input").read().rstrip("\n").split("\n")
+
 
 ans = 0
 for c in codes:
